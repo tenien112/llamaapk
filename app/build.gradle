@@ -1,0 +1,32 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'es.lorenzo.llama'
+    compileSdk 36
+    defaultConfig {
+        applicationId 'es.lorenzo.llama'
+        minSdk 26
+        targetSdk 36
+        // versionCode lo pone GitHub Actions en cada compilación (para el aviso de actualización)
+        versionCode (System.getenv('VERSION_CODE') ?: '1').toInteger()
+        versionName '1.' + (System.getenv('VERSION_CODE') ?: '1')
+    }
+    signingConfigs {
+        lorenzo {
+            storeFile file('llama.jks')
+            storePassword 'llamalorenzito'
+            keyAlias 'llama'
+            keyPassword 'llamalorenzito'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.lorenzo
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
